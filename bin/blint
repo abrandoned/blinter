@@ -7,14 +7,14 @@ require 'thor'
 class Blint < Thor
 
   desc "rspec", "run blint on a file or directory"
-  method_option :file, :aliases => ["-f"], :type => :string,
+  method_option :file, :aliases => ["-f"], :type => :string, :default => "./**/*.rb",
                 :desc => "The file, directory, or pattern to run blint on"
-  method_option :verbose => true, :aliases => ["-v"], :type => :boolean, 
-                :desc => "Verbose output to stdout"
+  method_option :verbose, :aliases => ["-v"], :type => :boolean, 
+                :desc => "Verbose output to stdout", :default => true
   method_option :test, :aliases => ["-t"], :type => :string, 
                 :desc => "The specific test to run", :required => true
-  method_option :simulate => true, :aliases => ["-s"], :type => :boolean,
-                :desc => "Run without changing code"
+  method_option :simulate, :aliases => ["-s"], :type => :boolean,
+                :desc => "Run without changing code", :default => true
   def rspec
     potential_methods = Blinter::RSpec.instance_methods - Object.instance_methods
     local_options = options.dup.symbolize_keys

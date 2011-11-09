@@ -1,5 +1,5 @@
 module Blinter
-  class RubyBlint < Blinter::RipperRider
+  class RubyBlint < Blinter::FileTraverser
     def case_when_then(line)
     end
   end

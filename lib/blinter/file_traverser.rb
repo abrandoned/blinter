@@ -17,7 +17,7 @@ module Blinter
     end
 
     def initialize(opts={})
-      @options = DEFAULT_OPTIONS.dup.merge(opts)
+      @options = FileTraverser::DEFAULT_OPTIONS.dup.merge(opts)
     end
 
     def exec
@@ -46,15 +46,15 @@ module Blinter
         new_line = ""
         temp_file = @options[:simulate] ? false : Tempfile.new("blinter")
 
-        $stdout.puts("Checking: " << File.expand_path(file)) if @options[:verbose]
+        $stdout.puts("File : " << File.expand_path(file)) if @options[:verbose]
 
         File.open(File.expand_path(file), "r").each_line do |line|
           new_line = line
           new_line = run(line)
 
           if @options[:verbose] && line != new_line
-            $stdout.puts("-" << line)
-            $stdout.puts("+" << new_line)
+            $stdout.puts("\t-" << line)
+            $stdout.puts("\t+" << new_line)
           end
 
           temp_file.puts(new_line) if temp_file 
