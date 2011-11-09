@@ -11,5 +11,7 @@ module Blinter
       return sub_ex.call(line) if line =~ check_ex
       return line
     end
+    
+    alias_method :see, :should_equals_equals
   end
 end
