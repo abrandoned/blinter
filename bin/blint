@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'blinter'
+require 'thor'
+
+class Blint < Thor
+
+  desc "rspec", "run blint on a file or directory"
+  method_option :file, :aliases => ["-f"], :type => :string,
+                :desc => "The file, directory, or pattern to run blint on"
+  method_option :verbose => true, :aliases => ["-v"], :type => :boolean, 
+                :desc => "Verbose output to stdout"
+  method_option :test, :aliases => ["-t"], :type => :string, 
+                :desc => "The specific test to run", :required => true
+  def rspec
+    potential_methods = Blinter::RSpec.instance_methods - Object.instance_methods
+    local_options = options.dup.symbolize_keys
+    local_options[:test] = local_options[:test].downcase.to_sym
+
+    if potential_methods.include?(local_options[:test]) || potential_methods.include(local_options[:test].to_s)
+      test_runner = Blinter::RSpec.new(local_options)
+      test_runner.exec
+    end
+  end
+end
+
+Blint.start
