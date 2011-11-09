@@ -13,6 +13,8 @@ class Blint < Thor
                 :desc => "Verbose output to stdout"
   method_option :test, :aliases => ["-t"], :type => :string, 
                 :desc => "The specific test to run", :required => true
+  method_option :simulate => true, :aliases => ["-s"], :type => :boolean,
+                :desc => "Run without changing code"
   def rspec
     potential_methods = Blinter::RSpec.instance_methods - Object.instance_methods
     local_options = options.dup.symbolize_keys
